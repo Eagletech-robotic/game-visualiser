@@ -1,0 +1,16 @@
+{
+    "name": "game-visualizer",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "tsc --watch",
+        "build": "tsc",
+        "test": "jest",
+        "clean": "rm -rf dist"
+    },
+    "dependencies": {
+        "typescript": "^5.6.2"
+    }
+}
