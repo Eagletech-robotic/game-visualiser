@@ -4,13 +4,16 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "start": "node src/index.js",
-        "dev": "tsc --watch",
-        "build": "tsc",
-        "test": "jest",
-        "clean": "rm -rf dist"
-    },
+        "start": "vite",                 
+        "dev": "vite",                   
+        "build": "vite build",           
+        "test": "jest",                  
+        "clean": "rm -rf dist"           
+      },
     "dependencies": {
         "typescript": "^5.6.2"
+    },
+    "devDependencies": {
+        "vite": "^5.4.8"
     }
 }
