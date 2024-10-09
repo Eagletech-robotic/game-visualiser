@@ -1,0 +1,45 @@
+{
+    "startPosition": {
+        "x": 250,
+        "y": 198,
+        "angle": 0
+    },
+    "actions": [
+        {
+            "timestamp": 0,
+            "type": "move",
+            "endPosition": {
+                "x": 300,
+                "y": 229,
+                "angle": 0
+            }
+        },
+        {
+            "timestamp": 178,
+            "type": "move",
+            "endPosition": {
+                "x": 460,
+                "y": 300,
+                "angle": 50
+            }
+        },
+        {
+            "timestamp": 389,
+            "type": "move",
+            "endPosition": {
+                "x": 829,
+                "y": 305,
+                "angle": 25
+            }
+        },
+        {
+            "timestamp": 631,
+            "type": "move",
+            "endPosition": {
+                "x": 1529,
+                "y": 600,
+                "angle": 128
+            }
+        }
+    ]
+}
