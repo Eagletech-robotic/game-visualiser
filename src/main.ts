@@ -1,4 +1,4 @@
-import { Action, GameData } from 'types'
+import { GameData } from 'types'
 import { Canvas } from './Canvas'
 import { Game, gameHeight, gameWidth } from './Game'
 
@@ -7,7 +7,10 @@ canvasElement.width = gameWidth / (gameHeight / canvasElement.height)
 canvasElement.height = gameHeight / (gameHeight / canvasElement.height)
 
 const inputFile = document.getElementById('inputFile') as HTMLInputElement
-inputFile.addEventListener('change', handleFileSelect)
+inputFile.addEventListener('change', () => {
+    const file = inputFile.files?.[0]
+    if (file) handleFileSelect(file)
+})
 
 const startButton: HTMLElement = document.getElementById('start')!
 const stopButton: HTMLElement = document.getElementById('stop')!
@@ -20,7 +23,6 @@ stopButton.addEventListener('click', () => {
     GAME?.stop()
 })
 resetButton.addEventListener('click', () => {
-    GAME?.stop()
     newGame()
 })
 
@@ -29,8 +31,20 @@ let GAME: Game | null = null
 
 let isPlaying: boolean = false
 
-function handleFileSelect() {
-    const file = inputFile.files?.[0]
+// Try to get saved file
+const savedFileName = localStorage.getItem('savedFileName')
+const savedFileContent = localStorage.getItem('savedFileContent')
+if (savedFileName && savedFileContent) {
+    const mockFile = new File([savedFileContent], savedFileName)
+    const dataTransfer = new DataTransfer()
+    dataTransfer.items.add(mockFile)
+    inputFile.files = dataTransfer.files
+
+    const event = new Event('change', { bubbles: true })
+    inputFile.dispatchEvent(event)
+}
+
+function handleFileSelect(file: File) {
     const uploadedFileSpan = document.getElementById('uploadedFile') as HTMLSpanElement
     if (!file) {
         uploadedFileSpan.innerText = 'No file selected'
@@ -42,7 +56,10 @@ function handleFileSelect() {
     const reader = new FileReader()
     reader.onload = function () {
         try {
-            GAMEDATA = JSON.parse(reader.result as string)
+            const result = reader.result as string
+            GAMEDATA = JSON.parse(result)
+            localStorage.setItem('savedFileContent', result)
+            localStorage.setItem('savedFileName', file.name)
             newGame()
         } catch (e) {
             console.error('Error parsing JSON file:', e)
