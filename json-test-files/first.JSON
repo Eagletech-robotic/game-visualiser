@@ -6,7 +6,7 @@
     },
     "actions": [
         {
-            "timestamp": 0,
+            "timestamp": 18,
             "type": "move",
             "endPosition": {
                 "x": 300,
