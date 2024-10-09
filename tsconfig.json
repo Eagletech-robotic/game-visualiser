@@ -13,7 +13,9 @@
         "moduleResolution": "Node",
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "noEmit": true,
+        "noEmit": false,
+        "outDir": "./dist",
+        "rootDir": "./src",
         "baseUrl": "src"
     },
     "include": ["./src/**/*.ts"],

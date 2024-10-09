@@ -8,8 +8,7 @@ export const playerRadius = 150 // 15 cm
 export class Game {
     private gameData: GameData
     private canvas: Canvas
-    private intervalId: number | null = null
-    private isRunning = false
+    private intervalId: NodeJS.Timeout | null = null
 
     constructor(gameData: GameData, canvas: Canvas) {
         this.gameData = gameData
@@ -27,7 +26,6 @@ export class Game {
     playAction(action: Action, startPosition: Position): Promise<void> {
         return new Promise<void>((resolve) => {
             this.stop()
-            this.isRunning = true
 
             console.log('playing action ' + action.timestamp + ' with start position:')
             console.log(startPosition)
@@ -70,7 +68,6 @@ export class Game {
     }
 
     stop() {
-        this.isRunning = false
         if (this.intervalId !== null) {
             clearInterval(this.intervalId)
             this.intervalId = null
