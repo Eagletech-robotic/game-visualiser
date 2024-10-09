@@ -1,12 +1,33 @@
+import { Action, GameData } from 'types'
 import { Canvas } from './Canvas'
 import { Game, gameHeight, gameWidth } from './Game'
 
-const canvas = document.getElementById('canvas') as HTMLCanvasElement
-canvas.width = gameWidth / (gameHeight / canvas.height)
-canvas.height = gameHeight / (gameHeight / canvas.height)
+const canvasElement = document.getElementById('canvas') as HTMLCanvasElement
+canvasElement.width = gameWidth / (gameHeight / canvasElement.height)
+canvasElement.height = gameHeight / (gameHeight / canvasElement.height)
 
 const inputFile = document.getElementById('inputFile') as HTMLInputElement
 inputFile.addEventListener('change', handleFileSelect)
+
+const startButton: HTMLElement = document.getElementById('start')!
+const stopButton: HTMLElement = document.getElementById('stop')!
+const resetButton: HTMLElement = document.getElementById('reset')!
+
+startButton.addEventListener('click', () => {
+    playGame()
+})
+stopButton.addEventListener('click', () => {
+    GAME?.stop()
+})
+resetButton.addEventListener('click', () => {
+    GAME?.stop()
+    newGame()
+})
+
+let GAMEDATA: GameData | null = null
+let GAME: Game | null = null
+
+let isPlaying: boolean = false
 
 function handleFileSelect() {
     const file = inputFile.files?.[0]
@@ -21,10 +42,8 @@ function handleFileSelect() {
     const reader = new FileReader()
     reader.onload = function () {
         try {
-            const gameData = JSON.parse(reader.result as string)
-            const CANVAS = new Canvas(canvas)
-            const GAME = new Game(gameData, CANVAS)
-            GAME.start()
+            GAMEDATA = JSON.parse(reader.result as string)
+            newGame()
         } catch (e) {
             console.error('Error parsing JSON file:', e)
         }
@@ -37,4 +56,34 @@ function handleFileSelect() {
     }
 
     reader.readAsText(file)
+}
+
+function newGame() {
+    GAME?.stop()
+    isPlaying = false
+
+    const canvas = new Canvas(canvasElement)
+    if (GAMEDATA) {
+        GAME = new Game(GAMEDATA, canvas)
+    }
+}
+
+async function playGame() {
+    GAME?.stop()
+    isPlaying = true
+
+    if (GAME && GAMEDATA) {
+        if (!isPlaying) {
+            GAME.stop()
+            return
+        }
+
+        let startPosition = GAMEDATA.startPosition
+
+        for (const action of GAMEDATA?.actions) {
+            await GAME.playAction(action, startPosition)
+
+            startPosition = action.endPosition
+        }
+    }
 }
