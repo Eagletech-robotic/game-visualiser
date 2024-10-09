@@ -46,17 +46,19 @@ export class Game {
                 const position = {
                     x:
                         startPosition.x +
-                        ((action.endPosition.x - startPosition.x) * time) / action.timestamp,
+                        (action.endPosition.x - startPosition.x) * (1 - time / action.timestamp),
                     y:
                         startPosition.y +
-                        ((action.endPosition.y - startPosition.y) * time) / action.timestamp,
+                        (action.endPosition.y - startPosition.y) * (1 - time / action.timestamp),
                     angle:
                         startPosition.angle +
-                        ((action.endPosition.angle - startPosition.angle) * time) /
-                            action.timestamp,
+                        (action.endPosition.angle - startPosition.angle) *
+                            (1 - time / action.timestamp),
                 }
 
                 console.log('currently at position ' + JSON.stringify(position))
+                console.log('action: ' + JSON.stringify(action.endPosition))
+                console.log('start: ' + JSON.stringify(startPosition))
 
                 this.canvas.clear()
                 this.canvas.drawPosition(
