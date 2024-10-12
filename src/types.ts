@@ -1,5 +1,5 @@
 export type GameData = {
-    startPosition: Position
+    startingPosition: Position
     actions: Array<Action>
 }
 

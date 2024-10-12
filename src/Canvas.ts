@@ -17,9 +17,9 @@ export class Canvas {
         this.ctx.clearRect(0, 0, this.width, this.height)
     }
 
-    drawPosition(position: Position, playerRadius: number) {
+    drawPosition(position: Position, robotRadius: number) {
         this.ctx.beginPath()
-        this.ctx.arc(position.x, position.y, playerRadius, 0, Math.PI * 2)
+        this.ctx.arc(position.x, position.y, robotRadius, 0, Math.PI * 2)
         this.ctx.fillStyle = 'blue'
         this.ctx.fill()
         this.ctx.closePath()
@@ -27,8 +27,8 @@ export class Canvas {
         this.ctx.beginPath()
         this.ctx.moveTo(position.x, position.y)
         this.ctx.lineTo(
-            position.x + Math.cos((position.angle * Math.PI) / 180) * playerRadius,
-            position.y + Math.sin((position.angle * Math.PI) / 180) * playerRadius
+            position.x + Math.cos((position.angle * Math.PI) / 180) * robotRadius,
+            position.y + Math.sin((position.angle * Math.PI) / 180) * robotRadius
         )
         this.ctx.strokeStyle = 'red'
         this.ctx.lineWidth = 3

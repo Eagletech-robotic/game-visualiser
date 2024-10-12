@@ -1,9 +1,11 @@
 import { Canvas } from 'Canvas'
 import { Action, GameData, Position } from 'types'
 
-export const gameHeight = 3000 // 3 meters
-export const gameWidth = 4500 // 4.5 meters
-export const playerRadius = 150 // 15 cm
+export const GAME_HEIGHT = 2000 // 3 meters
+export const GAME_WIDTH = 3000 // 4.5 meters
+const ROBOT_PERIMETER = 1200 // 30 cm
+
+export const robotRadius = ROBOT_PERIMETER / (2 * Math.PI)
 
 export class Game {
     private gameData: GameData
@@ -13,14 +15,14 @@ export class Game {
     constructor(gameData: GameData, canvas: Canvas) {
         this.gameData = gameData
         this.canvas = canvas
-        this.drawStartPosition()
+        this.drawStartingPosition()
     }
 
-    private drawStartPosition() {
+    private drawStartingPosition() {
         this.canvas.clear()
-        const startPosition = this.positionToPixels(this.gameData.startPosition)
-        const playerRadiusMm = this.millimetersToPixels(playerRadius)
-        this.canvas.drawPosition(startPosition, playerRadiusMm)
+        const startPosition = this.positionToPixels(this.gameData.startingPosition)
+        const robotRadiusMm = this.millimetersToPixels(robotRadius)
+        this.canvas.drawPosition(startPosition, robotRadiusMm)
     }
 
     playAction(action: Action, startPosition: Position): Promise<void> {
@@ -61,7 +63,7 @@ export class Game {
                 this.canvas.clear()
                 this.canvas.drawPosition(
                     this.positionToPixels(position),
-                    this.millimetersToPixels(playerRadius)
+                    this.millimetersToPixels(robotRadius)
                 )
             }, interval)
         })
@@ -83,6 +85,6 @@ export class Game {
     }
 
     private millimetersToPixels(millimeters: number) {
-        return (millimeters / gameHeight) * this.canvas.height
+        return (millimeters / GAME_HEIGHT) * this.canvas.height
     }
 }

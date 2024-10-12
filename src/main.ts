@@ -1,10 +1,10 @@
 import { GameData } from 'types'
 import { Canvas } from './Canvas'
-import { Game, gameHeight, gameWidth } from './Game'
+import { Game, GAME_HEIGHT, GAME_WIDTH } from './Game'
 
 const canvasElement = document.getElementById('canvas') as HTMLCanvasElement
-canvasElement.width = gameWidth / (gameHeight / canvasElement.height)
-canvasElement.height = gameHeight / (gameHeight / canvasElement.height)
+canvasElement.width = GAME_WIDTH / (GAME_HEIGHT / canvasElement.height)
+canvasElement.height = GAME_HEIGHT / (GAME_HEIGHT / canvasElement.height)
 
 const inputFile = document.getElementById('inputFile') as HTMLInputElement
 inputFile.addEventListener('change', () => {
@@ -95,7 +95,7 @@ async function playGame() {
             return
         }
 
-        let startPosition = GAMEDATA.startPosition
+        let startPosition = GAMEDATA.startingPosition
 
         for (const action of GAMEDATA?.actions) {
             await GAME.playAction(action, startPosition)
